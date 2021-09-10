@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/APISynology/.vs/APISynology/v16
+/APISynology/APISynology/obj
+/APISynology/.vs/APISynology/DesignTimeBuild
+/APISynology/APISynology/bin/Debug/net5.0
+/APISynology/APISynology/APISynology.csproj.user
