@@ -8,3 +8,6 @@
 /APISynology/.vs/APISynology/DesignTimeBuild
 /APISynology/APISynology/bin/Debug/net5.0
 /APISynology/APISynology/APISynology.csproj.user
+/APISynology/APISynology.Tests/bin/Debug/net5.0
+/APISynology/APISynology.Tests/obj
+/APISynology/.vs/APISynology/config
