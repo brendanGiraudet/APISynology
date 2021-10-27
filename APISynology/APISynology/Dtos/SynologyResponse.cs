@@ -2,12 +2,16 @@
 
 namespace APISynology.Dtos
 {
-    public class SynologyResponse<T>
+    public class SynologyResponse
+    {
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
+    }
+    
+    public class SynologyResponseWithData<T> : SynologyResponse
     {
         [JsonPropertyName("data")]
         public T Data { get; set; }
-        [JsonPropertyName("success")]
-        public bool Success { get; set; }
     }
 
     public class SynologyDataLoginResponse

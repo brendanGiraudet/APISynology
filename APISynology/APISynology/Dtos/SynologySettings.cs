@@ -25,6 +25,12 @@ namespace APISynology.Dtos
         {
             return BuildPath(string.Format(GetFilesPath, sid, HttpUtility.UrlEncode(path)));
         }
+        
+        public string DeleteFilePath { get; set; }
+        public string BuildDeleteFile(string sid, string path)
+        {
+            return BuildPath(string.Format(DeleteFilePath, sid, HttpUtility.UrlEncode(path)));
+        }
 
         public string MusicPath { get; set; }
 

@@ -67,11 +67,32 @@ namespace APISynology.Tests
             var sid = synologyService.GetSIdAsync(user, password).Result.Data.Sid;
 
             // Act
-            var responsgetFilesResponse = await synologyService.GetFilesAsync(sid, path);
+            var getFilesResponse = await synologyService.GetFilesAsync(sid, path);
 
             // Assert
-            Assert.NotNull(responsgetFilesResponse);
-            Assert.True(responsgetFilesResponse.Data.Files.Any());
+            Assert.NotNull(getFilesResponse);
+            Assert.True(getFilesResponse.Data.Files.Any());
+        }
+        #endregion
+
+        #region DeleteFileAsync
+        [Fact(Skip = "untestable")]
+        public async Task ShouldHaveSucessTrueWhenDeleteFile()
+        {
+            //TODO use httpclient mock 
+            // Arrange 
+            var user = "";
+            var password = "";
+            var path = "";
+            var synologyService = CreateSynologyService();
+            var sid = synologyService.GetSIdAsync(user, password).Result.Data.Sid;
+
+            // Act
+            SynologyResponse deleteFileResponse = await synologyService.DeleteFileAsync(sid, path);
+
+            // Assert
+            Assert.NotNull(deleteFileResponse);
+            Assert.True(deleteFileResponse.Success);
         }
         #endregion
     }

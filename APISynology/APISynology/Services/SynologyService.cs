@@ -18,9 +18,10 @@ namespace APISynology.Services
             _httpClient = httpClient;
         }
 
-        public async Task<SynologyResponse<SynologyDataTaskListResponse>> GetTaskListAsync()
+        ///<inheritdoc />
+        public async Task<SynologyResponseWithData<SynologyDataTaskListResponse>> GetTaskListAsync()
         {
-            var synologyResponse = new SynologyResponse<SynologyDataTaskListResponse>
+            var synologyResponse = new SynologyResponseWithData<SynologyDataTaskListResponse>
             {
                 Success = false
             };
@@ -29,7 +30,7 @@ namespace APISynology.Services
             {
                 var response = await _httpClient.GetAsync(_synologySettings.TaskListUrl);
                 var stringContent = await response.Content.ReadAsStringAsync();
-                synologyResponse = JsonSerializer.Deserialize<SynologyResponse<SynologyDataTaskListResponse>>(stringContent);
+                synologyResponse = JsonSerializer.Deserialize<SynologyResponseWithData<SynologyDataTaskListResponse>>(stringContent);
             }
             catch (Exception ex)
             {
@@ -37,10 +38,11 @@ namespace APISynology.Services
             }
             return synologyResponse;
         }
-        
-        public async Task<SynologyResponse<SynologyDataLoginResponse>> GetSIdAsync(string user, string password)
+
+        ///<inheritdoc />
+        public async Task<SynologyResponseWithData<SynologyDataLoginResponse>> GetSIdAsync(string user, string password)
         {
-            var synologyResponse = new SynologyResponse<SynologyDataLoginResponse>
+            var synologyResponse = new SynologyResponseWithData<SynologyDataLoginResponse>
             {
                 Success = false
             };
@@ -51,7 +53,7 @@ namespace APISynology.Services
             {
                 var response = await _httpClient.GetAsync(url);
                 var stringContent = await response.Content.ReadAsStringAsync();
-                synologyResponse = (SynologyResponse<SynologyDataLoginResponse>) JsonSerializer.Deserialize(stringContent, typeof(SynologyResponse<SynologyDataLoginResponse>));
+                synologyResponse = (SynologyResponseWithData<SynologyDataLoginResponse>) JsonSerializer.Deserialize(stringContent, typeof(SynologyResponseWithData<SynologyDataLoginResponse>));
             }
             catch (Exception ex)
             {
@@ -60,9 +62,10 @@ namespace APISynology.Services
             return synologyResponse;
         }
 
-        public async Task<SynologyResponse<SynologyDataFileListResponse>> GetFilesAsync(string sid, string path)
+        ///<inheritdoc />
+        public async Task<SynologyResponseWithData<SynologyDataFileListResponse>> GetFilesAsync(string sid, string path)
         {
-            var synologyResponse = new SynologyResponse<SynologyDataFileListResponse>
+            var synologyResponse = new SynologyResponseWithData<SynologyDataFileListResponse>
             {
                 Success = false
             };
@@ -73,7 +76,30 @@ namespace APISynology.Services
             {
                 var response = await _httpClient.GetAsync(url);
                 var stringContent = await response.Content.ReadAsStringAsync();
-                synologyResponse = (SynologyResponse<SynologyDataFileListResponse>)JsonSerializer.Deserialize(stringContent, typeof(SynologyResponse<SynologyDataFileListResponse>));
+                synologyResponse = (SynologyResponseWithData<SynologyDataFileListResponse>)JsonSerializer.Deserialize(stringContent, typeof(SynologyResponseWithData<SynologyDataFileListResponse>));
+            }
+            catch (Exception ex)
+            {
+                //TODO ajout log dans kibana
+            }
+            return synologyResponse;
+        }
+
+        ///<inheritdoc />
+        public async Task<SynologyResponse> DeleteFileAsync(string sid, string path)
+        {
+            var synologyResponse = new SynologyResponse
+            {
+                Success = false
+            };
+
+            var url = _synologySettings.BuildDeleteFile(sid, path);
+
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                var stringContent = await response.Content.ReadAsStringAsync();
+                synologyResponse = (SynologyResponse)JsonSerializer.Deserialize(stringContent, typeof(SynologyResponse));
             }
             catch (Exception ex)
             {
