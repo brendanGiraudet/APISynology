@@ -8,7 +8,7 @@ EXPOSE 2626
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["APISynology/APISynology.csproj", "APISynology/"]
+COPY ["APISynology.csproj", "APISynology/"]
 RUN dotnet restore "APISynology/APISynology.csproj"
 COPY . .
 WORKDIR "/src/APISynology"
