@@ -8,10 +8,10 @@ EXPOSE 2626
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["APISynology.csproj", "APISynology/"]
-RUN dotnet restore "APISynology/APISynology.csproj"
+COPY ["./APISynology/APISynology.csproj", "APISynology/"]
+WORKDIR "src/APISynology"
+RUN dotnet restore "./APISynology.csproj"
 COPY . .
-WORKDIR "/src/APISynology"
 RUN dotnet build "APISynology.csproj" -c Release -o /app/build
 
 FROM build AS publish
