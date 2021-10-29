@@ -8,8 +8,8 @@ EXPOSE 2626
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["./APISynology/APISynology.csproj", "APISynology/"]
-WORKDIR "src/APISynology"
+COPY ["./APISynology.csproj", "APISynology/"]
+WORKDIR "/src/APISynology"
 RUN dotnet restore "./APISynology.csproj"
 COPY . .
 RUN dotnet build "APISynology.csproj" -c Release -o /app/build
@@ -25,4 +25,4 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password="elk_api"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/api_synology.pfx
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "APISynology.dll"]
+CMD ["dotnet", "APISynology.dll"]
