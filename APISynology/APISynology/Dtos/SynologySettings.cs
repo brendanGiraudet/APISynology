@@ -27,7 +27,7 @@ namespace APISynology.Dtos
         }
         
         public string DeleteFilePath { get; set; }
-        public string BuildDeleteFile(string sid, string path)
+        public string BuildDeleteFileUrl(string sid, string path)
         {
             return BuildPath(string.Format(DeleteFilePath, sid, HttpUtility.UrlEncode(path)));
         }
@@ -37,6 +37,12 @@ namespace APISynology.Dtos
         public string BuildPath(string path)
         {
             return $"{BaseUrl}{path}";
+        }
+
+        public string UploadFilePath { get; set; }
+        public string BuildUploadFileUrl(string sid, string path)
+        {
+            return BuildPath(string.Format(UploadFilePath, HttpUtility.UrlEncode(path), sid));
         }
     }
 }

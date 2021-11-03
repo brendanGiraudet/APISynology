@@ -1,4 +1,5 @@
 ﻿using APISynology.Dtos;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace APISynology.Services
@@ -34,5 +35,14 @@ namespace APISynology.Services
         /// <param name="path">Path of the directory where delete file</param>
         /// <returns></returns>
         Task<SynologyResponse> DeleteFileAsync(string sid, string path);
+
+        /// <summary>
+        /// Send a request to the DSM to upload specific file from stream
+        /// </summary>
+        /// <param name="sid">Session id of the connected user</param>
+        /// <param name="path">Path of the directory where upload file</param>
+        /// <param name="fileStream">Stream of the file to upload</param>
+        /// <returns></returns>
+        Task<SynologyResponse> UploadFileAsync(string sid, string path, StreamContent fileStream);
     }
 }

@@ -1,6 +1,7 @@
 using APISynology.Dtos;
 using APISynology.Services;
 using Microsoft.Extensions.Options;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -77,7 +78,7 @@ namespace APISynology.Tests
 
         #region DeleteFileAsync
         [Fact(Skip = "untestable")]
-        public async Task ShouldHaveSucessTrueWhenDeleteFile()
+        public async Task ShouldHaveSucessTrueWhenDeleteFileAsync()
         {
             //TODO use httpclient mock 
             // Arrange 
@@ -93,6 +94,30 @@ namespace APISynology.Tests
             // Assert
             Assert.NotNull(deleteFileResponse);
             Assert.True(deleteFileResponse.Success);
+        }
+        #endregion
+
+        #region UploadFileAsync
+        [Fact(Skip = "untestable")]
+        public async Task ShouldHaveSucessTrueWheUploadFileAsync()
+        {
+            //TODO use httpclient mock 
+            // Arrange 
+            var user = "";
+            var password = "";
+            var path = "";
+            var synologyService = CreateSynologyService();
+            var sid = synologyService.GetSIdAsync(user, password).Result.Data.Sid;
+            var filePath = @"";
+            var fileStream = File.OpenRead(filePath);
+            var fileStreamContent = new StreamContent(fileStream);
+
+            // Act
+            SynologyResponse uploadFileResponse = await synologyService.UploadFileAsync(sid, path, fileStreamContent);
+
+            // Assert
+            Assert.NotNull(uploadFileResponse);
+            Assert.True(uploadFileResponse.Success);
         }
         #endregion
     }

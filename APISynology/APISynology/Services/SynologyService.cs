@@ -1,6 +1,7 @@
 ﻿using APISynology.Dtos;
 using Microsoft.Extensions.Options;
 using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -93,11 +94,37 @@ namespace APISynology.Services
                 Success = false
             };
 
-            var url = _synologySettings.BuildDeleteFile(sid, path);
+            var url = _synologySettings.BuildDeleteFileUrl(sid, path);
 
             try
             {
                 var response = await _httpClient.GetAsync(url);
+                var stringContent = await response.Content.ReadAsStringAsync();
+                synologyResponse = (SynologyResponse)JsonSerializer.Deserialize(stringContent, typeof(SynologyResponse));
+            }
+            catch (Exception ex)
+            {
+                //TODO ajout log dans kibana
+            }
+            return synologyResponse;
+        }
+        
+        ///<inheritdoc />
+        public async Task<SynologyResponse> UploadFileAsync(string sid, string path, StreamContent fileStream)
+        {
+            var synologyResponse = new SynologyResponse
+            {
+                Success = false
+            };
+
+            var url = _synologySettings.BuildUploadFileUrl(sid, path);
+
+            try
+            {
+                var content = new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                content.Add(fileStream);
+
+                var response = await _httpClient.PostAsync(url, content);
                 var stringContent = await response.Content.ReadAsStringAsync();
                 synologyResponse = (SynologyResponse)JsonSerializer.Deserialize(stringContent, typeof(SynologyResponse));
             }
