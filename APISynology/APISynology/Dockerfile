@@ -18,11 +18,6 @@ FROM build AS publish
 RUN dotnet publish "APISynology.csproj" -c Release -o /app/publish
 
 FROM base AS final
-ENV ASPNETCORE_URLS=https://+:2626
-ENV ASPNETCORE_HTTPS_PORT=2626
-ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="elk_api"
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/api_synology.pfx
 WORKDIR /app
 COPY --from=publish /app/publish .
 CMD ["dotnet", "APISynology.dll"]
